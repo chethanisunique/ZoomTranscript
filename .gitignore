@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+
+# Backend Temp Files
+temp_audio/
+
+# Frontend Dependencies
+Frontend/node_modules/
+
+# Frontend Build Output
+Frontend/dist/
+
+# IDE-specific
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+
+# Log files
+*.log
