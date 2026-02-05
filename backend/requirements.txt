@@ -6,3 +6,6 @@ torch
 transformers
 sentencepiece
 accelerate
+tf-keras
+ffmpeg-python
+whisperx

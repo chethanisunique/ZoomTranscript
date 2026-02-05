@@ -7,12 +7,17 @@ import { Card } from "@/components/ui/card";
 import { Mic2, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { ProcessAudioResponse, Summary, TranscriptSegment } from "@/types/api";
+import { AudioPlayer } from "@/components/AudioPlayer";
+
+import { useRef } from "react";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [transcriptData, setTranscriptData] = useState<TranscriptSegment[]>([]);
   const [summaryData, setSummaryData] = useState<Summary | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string>("");
   const [activeTab, setActiveTab] = useState("transcript");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleUpload = async (files: FileList) => {
     if (!files.length) {
@@ -27,7 +32,7 @@ const Index = () => {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://localhost:8000/process-audio/", {
+      const response = await fetch("http://localhost:8000/process-file/", {
         method: "POST",
         body: formData,
       });
@@ -38,9 +43,10 @@ const Index = () => {
 
       const result: ProcessAudioResponse = await response.json();
       
-      if (result.transcript && result.summary) {
+      if (result.transcript && result.summary && result.audioUrl) {
         setTranscriptData(result.transcript);
         setSummaryData(result.summary);
+        setAudioUrl(`http://localhost:8000${result.audioUrl}`);
         toast.success("Processing complete!");
       } else {
         throw new Error("Invalid response from server.");
@@ -99,8 +105,9 @@ const Index = () => {
                 </TabsList>
               </div>
               <div className="p-6">
-                <TabsContent value="transcript" className="mt-0">
-                  <TranscriptView segments={transcriptData} />
+                <TabsContent value="transcript" className="mt-0 space-y-4">
+                  {audioUrl && <AudioPlayer ref={audioRef} src={audioUrl} />}
+                  <TranscriptView segments={transcriptData} audioRef={audioRef} />
                 </TabsContent>
                 <TabsContent value="summary" className="mt-0">
                   {summaryData && <SummaryView summary={summaryData} />}

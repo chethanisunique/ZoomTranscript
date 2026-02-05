@@ -2,6 +2,8 @@ export interface TranscriptSegment {
   speaker: string;
   text: string;
   timestamp: string;
+  start: number;
+  end: number;
 }
 
 export interface Summary {
@@ -15,4 +17,6 @@ export interface Summary {
 export interface ProcessAudioResponse {
   transcript: TranscriptSegment[];
   summary: Summary;
+  audioUrl: string;
+  duration: string;
 }

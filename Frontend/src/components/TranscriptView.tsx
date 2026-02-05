@@ -1,24 +1,32 @@
 import { User } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface TranscriptSegment {
   speaker: string;
   text: string;
   timestamp: string;
+  start: number;
+  end: number;
 }
 
 interface TranscriptViewProps {
   segments: TranscriptSegment[];
+  audioRef?: React.RefObject<HTMLAudioElement>;
 }
 
-export const TranscriptView = ({ segments }: TranscriptViewProps) => {
+export const TranscriptView = ({ segments, audioRef }: TranscriptViewProps) => {
   return (
     <div className="space-y-6">
       {segments.map((segment, index) => (
         <div
           key={index}
-          className="flex gap-4 animate-in fade-in slide-in-from-bottom-4"
+          className="flex gap-4 cursor-pointer hover:bg-muted/40 transition-colors animate-in fade-in slide-in-from-bottom-4"
           style={{ animationDelay: `${index * 50}ms` }}
+          onClick={() => {
+            if (audioRef?.current) {
+              audioRef.current.currentTime = segment.start;
+              audioRef.current.play();
+            }
+          }}
         >
           <div className="flex-shrink-0">
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
