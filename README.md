@@ -70,7 +70,7 @@ Then, start the development server:
 npm run dev
 ```
 
-The application will open in your browser, typically at `http://localhost:5173`.
+The application will open in your browser, typically at `http://localhost:8080`.
 
 ## How to Use
 
