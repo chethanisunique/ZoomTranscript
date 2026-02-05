@@ -3,7 +3,7 @@ uvicorn[standard]
 python-multipart
 openai-whisper
 torch
-transformers
+transformers<5
 sentencepiece
 accelerate
 tf-keras
